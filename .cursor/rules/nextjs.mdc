@@ -1,0 +1,27 @@
+---
+description: This rule explains Next.js conventions and best practices for fullstack development.
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+# Next.js ルール
+
+- ルートディレクトリごとに `page.tsx` ファイルを使ったApp Router構造を使用すること。
+- クライアントコンポーネントはファイルの先頭に必ず 'use client' を明記すること。
+- ディレクトリ名はkebab-case（例: `components/auth-form`）、コンポーネントファイルはパスカルケースを使用すること。
+- デフォルトエクスポートではなく名前付きエクスポートを推奨する。
+  例：
+  ```typescript
+  // 良い例
+  export function Button() { /* ... */ }
+  // 悪い例
+  export default function Button() { /* ... */ }
+  ```
+- 'use client' ディレクティブは最小限に抑える。
+  - ほとんどのコンポーネントはReact Server Component (RSC) とする
+  - インタラクティブな場合のみクライアントコンポーネントを使い、`Suspense` でfallback UIをラップする
+  - インタラクティブ要素には小さなクライアントラッパーを作成する
+- 不要な `useState` や `useEffect` の使用を避ける。
+  - データ取得はサーバーコンポーネントで行う
+  - フォーム処理はReact Server Actionsを使う
+  - 共有可能な状態にはURL検索パラメータを使う
+- URL検索パラメータの状態管理には `nuqs` を使用すること
